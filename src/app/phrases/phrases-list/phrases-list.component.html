@@ -3,13 +3,13 @@
     <h4>Phrases List</h4>
 
     <ul class="phrases-list">
-      <li>
-
+      <li (click)="onSelect(phrase)" *ngFor="let phrase of phrases">
+        {{ phrase.value }}
       </li>
     </ul>
   </div>
   <div class="row">
-    <div class="col">
+    <div class="col my-3">
       <router-outlet></router-outlet>
     </div>
   </div>
