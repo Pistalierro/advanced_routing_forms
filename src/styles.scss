@@ -14,7 +14,11 @@ nav {
   margin: 20px 0;
 }
 
-a {
+.btn-group {
+  margin: 20px 0;
+}
+
+a, button {
   text-decoration: none;
   display: block;
   color: black;
@@ -30,6 +34,5 @@ a {
     background-color: gray;
     border-color: lightgray;
     color: white;
-    font-weight: bold;
   }
 }

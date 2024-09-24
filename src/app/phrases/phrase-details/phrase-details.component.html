@@ -1,1 +1,9 @@
-<p>phrase-details works!</p>
+<h4>Phrase Details</h4>
+
+<div>ID: {{ phrase.id }}</div>
+<div>Value: {{ phrase.value }}</div>
+<div>Language: {{ phrase.language }}</div>
+
+<div class="btn-group">
+  <button (click)="goToPhrasesList(phrase)" type="button">Go To Phrases List</button>
+</div>

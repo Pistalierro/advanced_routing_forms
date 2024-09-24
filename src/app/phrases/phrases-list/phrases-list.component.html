@@ -3,7 +3,7 @@
     <h4>Phrases List</h4>
 
     <ul class="phrases-list">
-      <li (click)="onSelect(phrase)" *ngFor="let phrase of phrases">
+      <li (click)="onSelect(phrase)" *ngFor="let phrase of phrases" [class.selected]="isSelected(phrase)">
         {{ phrase.value }}
       </li>
     </ul>
