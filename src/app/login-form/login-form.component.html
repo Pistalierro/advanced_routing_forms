@@ -2,38 +2,50 @@
   <div class="col">
     <h3>Login</h3>
 
+    <p>{{ loginMessage }}</p>
+
     <div class="row">
       <div class="col-4">
-        <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+        <div *ngIf="!authService.isLoggedIn; then thenBlock; else elseBlock"></div>
 
-          <div class="mb-3">
-            <label class="form-label" for="login">Логин:</label>
-            <input (blur)="onValueChanges()"
-                   [class]="{'is-valid': form['login'].valid,
+        <ng-template #thenBlock>
+          <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+
+            <div class="mb-3">
+              <label class="form-label" for="login">Логин:</label>
+              <input (blur)="onValueChanges()"
+                     [class]="{'is-valid': form['login'].valid,
                    'is-invalid': form['login'].invalid && (form['login'].dirty || form['login'].touched)}"
-                   class="form-control" formControlName="login" id="login" placeholder="Начните вводить ваш логин... (admin)" type="text">
-            <div *ngIf="form['login'].valid" class="valid-feedback">{{ formSuccess }}</div>
-            <div *ngIf="form['login'].invalid && (form['login'].dirty || form['login'].touched)" class="invalid-feedback">
-              {{ formErrors.login }}
+                     class="form-control" formControlName="login" id="login" placeholder="Начните вводить ваш логин... (admin)" type="text">
+              <div *ngIf="form['login'].valid" class="valid-feedback">{{ formSuccess }}</div>
+              <div *ngIf="form['login'].invalid && (form['login'].dirty || form['login'].touched)" class="invalid-feedback">
+                {{ formErrors.login }}
+              </div>
             </div>
-          </div>
 
-          <div class="mb-3">
-            <label class="form-label" for="password">Пароль:</label>
-            <input (blur)="onValueChanges()"
-                   [class]="{'is-valid': form['password'].valid,
+            <div class="mb-3">
+              <label class="form-label" for="password">Пароль:</label>
+              <input (blur)="onValueChanges()"
+                     [class]="{'is-valid': form['password'].valid,
                    'is-invalid': form['password'].invalid && (form['password'].dirty || form['password'].touched)}"
-                   class="form-control" formControlName="password" id="password" placeholder="Начните вводить ваш логин... (12345)"
-                   type="password">
-            <div *ngIf="form['password'].valid" class="valid-feedback">{{ formSuccess }}</div>
-            <div *ngIf="form['password'].invalid && (form['password'].dirty || form['password'].touched)" class="invalid-feedback">
-              {{ formErrors.password }}
+                     class="form-control" formControlName="password" id="password" placeholder="Начните вводить ваш пароль... (12345)"
+                     type="password">
+              <div *ngIf="form['password'].valid" class="valid-feedback">{{ formSuccess }}</div>
+              <div *ngIf="form['password'].invalid && (form['password'].dirty || form['password'].touched)" class="invalid-feedback">
+                {{ formErrors.password }}
+              </div>
             </div>
+
+            <div class="mb-3">
+              <button (click)="login()" [disabled]="loginForm.invalid" class="btn btn-dark">Войти</button>
+            </div>
+          </form>
+        </ng-template>
+        <ng-template #elseBlock>
+          <div class="mb-3">
+            <button (click)="logout()" class="btn btn-dark">Выйти</button>
           </div>
-
-          <button [disabled]="loginForm.invalid" class="btn btn-dark">Сохранить</button>
-
-        </form>
+        </ng-template>
       </div>
     </div>
 

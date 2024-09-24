@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validator
 import {UserLogin} from '../shared/user-login';
 import {FORM_ERRORS, FORM_VALIDATION_MESSAGES} from '../shared/form-data';
 import {NgIf} from '@angular/common';
+import {AuthService} from '../shared/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -20,10 +22,14 @@ export class LoginFormComponent implements OnInit {
   validationMessages: any = FORM_VALIDATION_MESSAGES;
   formSuccess = 'Принято!';
 
-  loginForm!: FormGroup;
-  user: UserLogin = new UserLogin(1, null, null);
+  loginMessage!: string;
 
-  constructor(private fb: FormBuilder) {
+  loginForm!: FormGroup;
+  user: UserLogin = new UserLogin(1, 'admin', '12345');
+
+  constructor(private fb: FormBuilder,
+              public authService: AuthService,
+              private router: Router,) {
   }
 
   get form(): ValidationErrors {
@@ -31,7 +37,25 @@ export class LoginFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.setMessage();
     this.buildForm();
+  }
+
+  login() {
+    this.setMessage('Trying to login...');
+    this.authService.login(this.loginForm.controls['login'].value, this.loginForm.controls['password'].value).subscribe({
+      next: params => {
+        this.setMessage();
+        if (!this.authService.isLoggedIn) return;
+        const redirect = this.authService.redirectUrl ? this.authService.redirectUrl : 'admin';
+        return this.router.navigate([redirect]).then();
+      }
+    });
+  }
+
+  logout() {
+    this.authService.logout();
+    this.setMessage();
   }
 
   onValueChanges(): void {
@@ -51,6 +75,14 @@ export class LoginFormComponent implements OnInit {
 
   onSubmit(): void {
     console.log('Form submitted');
+  }
+
+  private setMessage(msg: string = '') {
+    if (msg) {
+      this.loginMessage = msg;
+      return;
+    }
+    this.loginMessage = `Logged ${this.authService.isLoggedIn ? 'in' : 'out'}`;
   }
 
   private buildForm() {
