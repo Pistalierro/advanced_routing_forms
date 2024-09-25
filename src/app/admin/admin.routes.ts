@@ -4,6 +4,7 @@ import {UsersListComponent} from './users-list/users-list.component';
 import {UserEditComponent} from './user-edit/user-edit.component';
 import {canActivateGuard} from '../shared/can-activate.guard';
 import {userDetailsResolver} from '../shared/user-details.resolver';
+import {canDeactivateGuard} from '../shared/can-deactivate.guard';
 
 export const adminRoutes: Routes = [
   {
@@ -19,7 +20,8 @@ export const adminRoutes: Routes = [
             path: ':id', component: UserEditComponent,
             resolve: {
               editUser: userDetailsResolver
-            }
+            },
+            canDeactivate: [canDeactivateGuard]
           }
         ]
       }

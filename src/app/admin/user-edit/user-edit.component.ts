@@ -3,6 +3,7 @@ import {ActivatedRoute, Data, Router} from '@angular/router';
 import {EditUser} from '../../shared/edit-user';
 import {FormsModule} from '@angular/forms';
 import {NgFor, NgIf} from '@angular/common';
+import {CanComponentDeactivate} from '../../shared/canComponentDeactivate';
 
 @Component({
   selector: 'app-user-edit',
@@ -15,7 +16,7 @@ import {NgFor, NgIf} from '@angular/common';
   templateUrl: './user-edit.component.html',
   styleUrl: './user-edit.component.scss'
 })
-export class UserEditComponent implements OnInit {
+export class UserEditComponent implements OnInit, CanComponentDeactivate {
 
   user: EditUser = new EditUser(1, null, null,);
   userRoles: string[] = ['Администратор', 'Модератор', 'Зарегистрирован', 'Не зарегистрирован'];
@@ -53,5 +54,10 @@ export class UserEditComponent implements OnInit {
   save() {
     this.user.name = this.editUserName;
     this.user.role = this.editUserRole;
+  }
+
+  canDeactivate(): boolean {
+    if (!this.isChanged()) return true;
+    return confirm('Вы не сохранили изменения. \nДанные будут потеряны. \nПокинуть страницу в любом случае?');
   }
 }

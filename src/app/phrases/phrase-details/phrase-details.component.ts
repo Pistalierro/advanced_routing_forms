@@ -4,6 +4,7 @@ import {Phrase} from '../../shared/phrase';
 import {AuthService} from '../../shared/auth.service';
 import {NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import {CanComponentDeactivate} from '../../shared/canComponentDeactivate';
 
 @Component({
   selector: 'app-phrase-details',
@@ -15,7 +16,7 @@ import {FormsModule} from '@angular/forms';
   templateUrl: './phrase-details.component.html',
   styleUrl: './phrase-details.component.scss'
 })
-export class PhraseDetailsComponent implements OnInit {
+export class PhraseDetailsComponent implements OnInit, CanComponentDeactivate {
 
   phrase!: Phrase;
   editValue!: string;
@@ -50,4 +51,8 @@ export class PhraseDetailsComponent implements OnInit {
     this.phrase.language = this.editLanguage;
   }
 
+  canDeactivate(): boolean {
+    if (!this.isChanged()) return true;
+    return confirm('Вы не сохранили изменения. \nДанные будут потеряны. \nПокинуть страницу в любом случае?');
+  }
 }

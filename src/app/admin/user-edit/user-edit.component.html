@@ -19,14 +19,15 @@
               <option *ngFor="let role of userRoles" [value]="role">{{ role }}</option>
             </select>
           </div>
+          <div *ngIf="isChanged()" class="mb-3 inline-btn">
+            <button (click)="save()" [disabled]="editUserForm.form.invalid" class="btn btn-dark">Сохранить</button>
+          </div>
+          <div class="mbt-3 btn-group">
+            <button (click)="goToUsersList()" class="btn btn-dark" disabled>Go To Users List</button>
+          </div>
         </form>
-      </div>
-      <div *ngIf="isChanged()" class="mb-3 inline-btn">
-        <button (click)="save()" class="btn btn-dark" type="button">Сохранить</button>
-      </div>
-      <div class="mbt-3 btn-group">
-        <button (click)="goToUsersList()" class="btn btn-dark btn-sm">Go To Users List</button>
       </div>
     </div>
   </div>
 </div>
+
