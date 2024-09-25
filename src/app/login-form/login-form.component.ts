@@ -74,7 +74,8 @@ export class LoginFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log('Form submitted');
+    console.log(this.loginForm.valid);
+    console.log(this.loginForm.value);
   }
 
   private setMessage(msg: string = '') {

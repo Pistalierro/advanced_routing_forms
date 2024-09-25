@@ -1,1 +1,32 @@
-<p>user-edit works!</p>
+<div class="row">
+  <div class="col">
+    <h4>Edit User Here</h4>
+    <p>ID: {{ user.id }}</p>
+
+    <div class="row">
+      <div class="col-5">
+        <form #editUserForm="ngForm" (ngSubmit)="onSubmit()">
+
+          <div class="mb-3">
+            <label class="form-label" for="name">Имя:</label>
+            <input [(ngModel)]="editUserName" class="form-control" id="name" name="name" required type="text">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="role">Роль:</label>
+            <select [(ngModel)]="editUserRole" class="form-select" id="role" name="role" required>
+              <option [value]="null" disabled selected>Выберите роль из списка</option>
+              <option *ngFor="let role of userRoles" [value]="role">{{ role }}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="isChanged()" class="mb-3 inline-btn">
+        <button (click)="save()" class="btn btn-dark" type="button">Сохранить</button>
+      </div>
+      <div class="mbt-3 btn-group">
+        <button (click)="goToUsersList()" class="btn btn-dark btn-sm">Go To Users List</button>
+      </div>
+    </div>
+  </div>
+</div>
